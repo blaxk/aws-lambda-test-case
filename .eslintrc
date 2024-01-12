@@ -1,0 +1,12 @@
+{
+	"extends": [
+		"eslint:recommended",
+		"plugin:node/recommended"
+	],
+	"parserOptions": {
+		"ecmaVersion": 2022
+	},
+	"rules": {
+
+	}
+}
