@@ -151,8 +151,8 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
       "requestId": "609766-c26b-4d86-9493-63a56789d",
       "request": {
         "queryStringParameters": {
-		      "storeId": 1
-	      }
+          "storeId": 1
+        }
       },
       "response": "{\"headers\":{\"Access-Control-Allow-Origin\":\"*\"},\"statusCode\":200,\"body\":\"{\"result\":\"test\"}\"}"
     },
@@ -164,8 +164,8 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
       "requestId": "",
       "request": {
         "body": {
-		      "productId": 2
-	      }
+          "productId": 2
+        }
       },
       "response": "{\"headers\":{\"Access-Control-Allow-Origin\":\"*\"},\"statusCode\":400,\"body\":\"{\"message\":\"error!\"}\"}"
     }
