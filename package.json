@@ -1,36 +1,37 @@
 {
-	"name": "aws-lambda-test-case",
-	"version": "0.5.0",
-	"engines": {
-		"node": ">=12.0.0"
-	},
-	"description": "AWS Lambda Test Case",
-	"main": "index.js",
-	"dependencies": {
-		"@aws-sdk/client-lambda": "^3.490.0",
-		"@aws-sdk/credential-provider-ini": "^3.490.0"
-	},
-	"devDependencies": {
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-import": "^2.29.1"
-	},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/blaxk/aws-lambda-test-case.git"
-	},
-	"keywords": [
-		"aws",
-		"lambda",
-		"test",
-		"lambda test",
-		"lambda test case"
-	],
-	"author": "blaxk",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/blaxk/aws-lambda-test-case/issues"
-	}
+  "name": "aws-lambda-test-case",
+  "version": "0.5.1",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "description": "AWS Lambda Test Case",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-lambda": "^3.490.0",
+    "@aws-sdk/credential-provider-ini": "^3.490.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-import": "^2.29.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blaxk/aws-lambda-test-case.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "test",
+    "lambda test",
+    "lambda test case"
+  ],
+  "author": "blaxk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blaxk/aws-lambda-test-case/issues"
+  },
+  "homepage": "https://github.com/blaxk/aws-lambda-test-case#readme"
 }

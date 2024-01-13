@@ -76,7 +76,7 @@ test.run()
 | Param | Type | Description |
 | --- | --- | --- |
 | option | *Object* | @param *{String}* `service`	repository name<br>@param *{String}* `stage`	default: 'dev'<br>@param *{String}* `region`	default: 'ap-northeast-2'<br>@param *{String}* `profile`	default: 'default'<br>@param *{Boolean}* `serverless`	default: true |
-
+    
 ```js
 const test = new AWSLambdaTestCase({
   service: 'my-repository',
@@ -94,7 +94,7 @@ const test = new AWSLambdaTestCase({
 | functionName | *String* | Lambda function name |
 | title | *String* | log title |
 | generator | *Function* | @returns *{Object}* { failure, success, valid, queryStringParameters, body, pathParameters ... } |
-
+    
 ```js
 const test = new AWSLambdaTestCase({
   service: 'my-repository'

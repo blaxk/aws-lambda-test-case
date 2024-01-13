@@ -2,7 +2,7 @@ const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
 const { fromIni } = require('@aws-sdk/credential-provider-ini')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.5.0'
+const MODULE_VER = '0.5.1'
 
 
 class AWSLambdaTestCase {
