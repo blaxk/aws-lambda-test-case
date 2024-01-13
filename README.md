@@ -3,7 +3,8 @@
 [![NPM version](https://img.shields.io/npm/v/aws-lambda-test-case.svg)](https://www.npmjs.com/package/aws-lambda-test-case)
 [![NPM downloads](https://img.shields.io/npm/dm/aws-lambda-test-case.svg)](https://www.npmjs.com/package/aws-lambda-test-case)
 
-AWS Lambda Function을 케이스별도 등록하고 간편하게 테스트할 수 있으며, 결과 Report도 반환 받을 수 있습니다.
+You can register AWS Lambda Functions on a case-by-case basis and easily test them, and also receive a report on the results.
+> 🚀Test by invoking the Lambda function deployed on the Dev server.
 
 
 ## Install
@@ -20,12 +21,11 @@ npm i aws-lambda-test-case --save-dev
 ```js
 const { AWSLambdaTestCase } = require('aws-lambda-test-case')
 
-//저장소별 테스트 케이스 생성
 const test = new AWSLambdaTestCase({ service: 'my-repository' })
 
 
 /**
- * Test case 등록
+ * Add test case
  */
 test.case('lambdaFunctionName1', 'log title1', (prevRes) => ({
   queryStringParameters: {
@@ -41,7 +41,7 @@ test.case('lambdaFunctionName2', 'log title2', (prevRes) => ({
   failure: AWSLambdaTestCase.BREAK
 }))
 
-//Test 일괄 실행
+//Test case batch run
 test.run()
 ```
 
@@ -69,9 +69,9 @@ test.run()
 
 ### constructor
 
-> 옵션은 모두 선택사항 입니다.  
-> - `serverless=true`를 설정하면, `{service}-{stage}-{functionName}` 으로 Lambda FunctionName을 구성합니다.   
-> - To specify a separate `~/.aws/credentials` profile alias other than `[default]`, `profile` 을 설정합니다.
+> All options are optional.  
+> - If you set `serverless = true`, you configure Lambda FunctionName with `<service>-<stage>-<functionName>`.   
+> - To specify a separate `~/.aws/credentials` profile alias other than `[default]`, you must set `profile`.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -80,12 +80,12 @@ test.run()
 ```js
 const test = new AWSLambdaTestCase({
   service: 'my-repository',
-  profile: 'my-dev-profile'
+  profile: 'my-profile'
 })
 ```
 
 ### case(functionName, title, handler) : *{AWSLambdaTestCase}*
-> Test case를 추가합니다.
+>  Add test case
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -99,13 +99,13 @@ const test = new AWSLambdaTestCase({
 })
 
 /**
- * generator function은 동적으로 Lambda의 이벤트 객체 + request option을 반환합니다.
- * @param {Object}  prevRes 이전 test case의 반환값
- * @param {Object}  prevRawRes 이전 test case의 원본 반환값
+ * "generator" function dynamically returns Lambda event + request option.
+ * @param {Object}  prevRes     Response from previous test case
+ * @param {Object}  prevRawRes  Raw response from previous test case
  * @returns {Object}
- *  - {Function} valid		최종상태를 결정하는 함수, true를 반환하면 success로 처리됨 (선택)
- * - {Enum}	failure		결과 실패 이후 계속진행할지 여부 설정 (default: AWSLambdaTestCase.CONTINUE)
- * - {Enum}	success		결과 성공 이후 계속진행할지 여부 설정 (defalut: AWSLambdaTestCase.CONTINUE)
+ * - {Function} valid		Dynamically determines status, if it returns true, it is treated as success (Optional)
+ * - {Enum}	failure		  Set whether to continue after a result fails (default: AWSLambdaTestCase.CONTINUE)
+ * - {Enum}	success		  Set whether to continue after a successful result (defalut: AWSLambdaTestCase.CONTINUE)
 */
 test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
   /** --- Lambda event --- */
@@ -118,7 +118,7 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 
   /** --- Request options --- */
   /**
-   * valid는 동적으로 최종상태를 결정
+   * valid function dynamically determines the status.
    * @param {Object}  res   Lambda response result
    * @returns {Boolean} 
   */
@@ -129,8 +129,8 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 ```
 
 ### run() : *{Promise}*
-> Test 실행   
-> Console log 및 report data를 반환
+> Test case batch run   
+> Returns console log and report data
 
 #### Report data
 ```json
@@ -193,7 +193,7 @@ test.case('lambdaFunctionName2', 'log title2', (prevRes) => ({
   failure: AWSLambdaTestCase.BREAK
 }))
 
-//Test 일괄 실행
+//Test case batch run
 test.run()
 ```
 
@@ -212,7 +212,9 @@ To use AWS Lambda, you need to set up an IAM policy.
       "Action": [
         "lambda:InvokeFunction"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:lambda:<region>:<accountId>:function:*"
+      ]
     }
   ]
 }

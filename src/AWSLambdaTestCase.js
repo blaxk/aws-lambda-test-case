@@ -2,19 +2,18 @@ const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
 const { fromIni } = require('@aws-sdk/credential-provider-ini')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.3.0'
+const MODULE_VER = '0.5.0'
 
 
 class AWSLambdaTestCase {
-	// 결과 이후 다음 case를 실행하지 않는다.
+	// The next case is not executed after the result.
 	static BREAK = 'break'
-	// 결과 이후 다음 case를 실행한다.
+	// After the result, execute the next case.
 	static CONTINUE = 'continue'
 
 	static STATUS_SUCCESS = 'success'
 	static STATUS_FAIL = 'fail'
 	static STATUS_ERROR = 'error'
-
 
 	/**
 	 * AWSLambdaTestCase
@@ -38,13 +37,13 @@ class AWSLambdaTestCase {
 	}
 
 	/**
-	 * Test case 등록
+	 * Add test case
 	 * @param {String} 		functionName 
 	 * @param {String} 		title 
 	 * @param {Function} 	generator		return { failure, success, valid, queryStringParameters, body, pathParameters ... }
-	 * - {Function} valid		최종상태를 결정하는 함수, true를 반환하면 success로 처리됨 (선택)
-	 * - {Enum} 	failure		결과 실패 이후 계속진행할지 여부 설정 (AWSLambdaTestCase.BREAK | AWSLambdaTestCase.CONTINUE)
-	 * - {Enum} 	success		결과 성공 이후 계속진행할지 여부 설정 (AWSLambdaTestCase.BREAK | AWSLambdaTestCase.CONTINUE)
+	 * - {Function} valid		Dynamically determines status, if it returns true, it is treated as success (Optional)
+	 * - {Enum} 	failure		Set whether to continue after a result fails (AWSLambdaTestCase.BREAK | AWSLambdaTestCase.CONTINUE)
+	 * - {Enum} 	success		Set whether to continue after a successful result (AWSLambdaTestCase.BREAK | AWSLambdaTestCase.CONTINUE)
 	 */
 	case (functionName, title, generator) {
 		const prevCase = this._getPrevCase()
