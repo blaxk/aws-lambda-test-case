@@ -84,7 +84,9 @@ const test = new AWSLambdaTestCase({
 })
 ```
 
-### case(functionName, title, handler) : *{AWSLambdaTestCase}*
+&nbsp;
+
+### case(functionName, title, generator) : *{AWSLambdaTestCase}*
 >  Add test case
 
 | Param | Type | Description |
@@ -127,6 +129,8 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
   failure: AWSLambdaTestCase.BREAK
 }))
 ```
+
+&nbsp;
 
 ### run() : *{Promise}*
 > Test case batch run   
@@ -172,6 +176,7 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 &nbsp;
 
 ## Example
+You can set the request for the next case based on the response from the previous case.
 
 ```js
 const { AWSLambdaTestCase } = require('aws-lambda-test-case')
@@ -180,14 +185,14 @@ const test = new AWSLambdaTestCase({ service: 'my-repository' })
 
 test.case('lambdaFunctionName1', 'log title1', (prevRes) => ({
   queryStringParameters: {
-	  storeId: 1
+    storeId: 1
   },
   failure: AWSLambdaTestCase.BREAK
 }))
 
 test.case('lambdaFunctionName2', 'log title2', (prevRes) => ({
   body: {
-	  productId: prevRes.body.productId
+    productId: prevRes.body.productId
   },
   valid: (res) => res.body.list.length > 0,
   failure: AWSLambdaTestCase.BREAK
