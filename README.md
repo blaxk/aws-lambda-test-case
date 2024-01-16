@@ -138,7 +138,7 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 
 ### run() : *{Promise}*
 > Test case batch run   
-> Returns console log and report data
+> Returns console log and report data   
 > When you execute the run function, cases are initialized.
 
 #### Report data
