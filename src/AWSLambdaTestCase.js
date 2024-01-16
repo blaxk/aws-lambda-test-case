@@ -2,7 +2,7 @@ const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
 const { fromIni } = require('@aws-sdk/credential-provider-ini')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.5.3'
+const MODULE_VER = '0.5.4'
 
 
 class AWSLambdaTestCase {
@@ -45,7 +45,7 @@ class AWSLambdaTestCase {
 	 */
 	case (functionName, title, generator) {
 		const prevCase = this._getPrevCase()
-		
+
 		this.cases.push({
 			key: ++this._caseKey,
 			functionName,
@@ -83,9 +83,10 @@ class AWSLambdaTestCase {
 
 		for (i = 1; i <= total; ++i) {
 			const testCase = this.cases[i - 1]
-			this._remakeCase(testCase)
 
 			try {
+				this._remakeCase(testCase)
+
 				const result = await client.send(new InvokeCommand({
 					FunctionName: this._getFunctionName(testCase),
 					InvocationType: 'RequestResponse',
@@ -159,7 +160,7 @@ class AWSLambdaTestCase {
 	_parseResponse (testCase, { StatusCode, Payload, $metadata }) {
 		const result = { fail: false, data: undefined, raw: undefined }
 		const resRawData = Payload ? Buffer.from(Payload).toString() : undefined
-		
+
 		if (StatusCode == 200) {
 			const resData = this._parseResBody(resRawData)
 
