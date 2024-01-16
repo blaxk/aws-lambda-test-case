@@ -2,7 +2,7 @@ const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda')
 const { fromIni } = require('@aws-sdk/credential-provider-ini')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.5.1'
+const MODULE_VER = '0.5.2'
 
 
 class AWSLambdaTestCase {
@@ -31,9 +31,7 @@ class AWSLambdaTestCase {
 		this.region = option.region || 'ap-northeast-2'
 		this.profile = option.profile || 'default'
 		this.serverless = option.serverless === false ? option.serverless : true
-		this.cases = []
-		this.report = []
-		this._caseKey = 0
+		this._resetCases()
 	}
 
 	/**
@@ -118,11 +116,14 @@ class AWSLambdaTestCase {
 
 		console.log(`########## ${MODULE_NAME} - Finished (success: ${success}, failure: ${failure})\n`)
 
+		const report = this.report
+		this._resetCases()
+
 		return {
 			total,
 			success,
 			failure,
-			report: this.report
+			report
 		}
 	}
 
@@ -225,6 +226,12 @@ class AWSLambdaTestCase {
 			request: testCase.data,
 			response
 		})
+	}
+
+	_resetCases () {
+		this.cases = []
+		this.report = []
+		this._caseKey = 0
 	}
 
 	_log (status, testCase, res) {
