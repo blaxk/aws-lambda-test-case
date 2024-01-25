@@ -6,7 +6,5 @@
 	"parserOptions": {
 		"ecmaVersion": 2022
 	},
-	"rules": {
-
-	}
+	"rules": {}
 }
