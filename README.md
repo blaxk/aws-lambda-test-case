@@ -138,7 +138,7 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 
 ### run(targetCases) : *{Promise}*
 > Test case batch run   
-> If you specify a TestCase in the "targetCases" array, only that TestCase will be run.
+> If you specify a TestCase in the "targetCases" array, only that TestCase will be run.   
 > Returns console log and report data   
 
 | Param | Type | Description |
@@ -148,11 +148,13 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
 &nbsp;
 
 #### Report data
+> status = `success | fail | error`   
+
 ```json
 {
-  "total": 2,
+  "total": 1,
   "success": 1,
-  "failure": 1,
+  "failure": 0,
   "reports": [
     {
       "id": "iuydf786as",
@@ -166,19 +168,6 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
         }
       },
       "response": "{\"headers\":{\"Access-Control-Allow-Origin\":\"*\"},\"statusCode\":200,\"body\":\"{\"result\":\"test\"}\"}"
-    },
-    {
-      "id": "iuydf74gft",
-      "status": "success",
-      "title": "log title2",
-      "functionName": "lambdaFunctionName2",
-      "requestId": "",
-      "request": {
-        "body": {
-          "productId": 2
-        }
-      },
-      "response": "{\"headers\":{\"Access-Control-Allow-Origin\":\"*\"},\"statusCode\":400,\"body\":\"{\"message\":\"error!\"}\"}"
     }
   ]
 }
@@ -193,31 +182,32 @@ const { AWSLambdaTestCase } = require('aws-lambda-test-case')
 const test = new AWSLambdaTestCase({ service: 'my-repository' })
 
 
-const testCase1 = test.case('lambdaFunctionName1', 'log title1', (prevRes) => ({
+const case1 = test.case('lambdaFunctionName1', 'log title1', (prevRes) => ({
   queryStringParameters: {
     storeId: 1
   },
   failure: AWSLambdaTestCase.BREAK
 }))
 
-const testCase2 = test.case('lambdaFunctionName2', 'log title2', (prevRes) => ({
+const case2 = test.case('lambdaFunctionName2', 'log title2', (prevRes) => ({
   body: {
     //You can set the request for the next case based on the response from the previous case.
-    productId: prevRes.body.productId
+    productId: prevRes?.body.productId
   },
   valid: (res) => res.body.list.length > 0,
   failure: AWSLambdaTestCase.BREAK
 }))
 
-const testCase3 = test.case('lambdaFunctionName3', 'log title3', (prevRes) => ({
-  body: {
-    productId: prevRes.body.productId
+const case3 = test.case('lambdaFunctionName2', 'log title3', (prevRes) => ({
+  queryStringParameters: {
+    productId: 3
   },
   failure: AWSLambdaTestCase.BREAK
 }))
 
+
 //Run by specifying a test case
-test.run([testCase1, testCase3])
+test.run([case2, case3])
 ```
 
 
