@@ -3,7 +3,7 @@ const { fromIni } = require('@aws-sdk/credential-provider-ini')
 const TestCase = require('./TestCase')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.6.0'
+const MODULE_VER = '0.6.1'
 
 
 class AWSLambdaTestCase {
@@ -32,8 +32,8 @@ class AWSLambdaTestCase {
 		}
 
 		this._lambda = new LambdaClient({
-			region: this.region,
-			credentials: fromIni({ profile: this.profile })
+			region: this._option.region,
+			credentials: fromIni({ profile: this._option.profile })
 		})
 
 		this._cases = []
