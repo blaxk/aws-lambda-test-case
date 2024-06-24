@@ -126,9 +126,10 @@ test.case('myFunctionName', 'log title', (prevRes, prevRawRes) => ({
   /**
    * valid function dynamically determines the status.
    * @param {Object}  res   Lambda response result
+   * @param {String}  resRaw   Lambda response raw string result
    * @returns {Boolean} 
   */
-  valid: (res) => res.body.result === 'test',
+  valid: (res, resRaw) => res.body.result === 'test',
   success: AWSLambdaTestCase.CONTINUE,
   failure: AWSLambdaTestCase.BREAK
 }))
