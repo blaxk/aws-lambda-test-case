@@ -104,13 +104,20 @@ class TestCase {
 
 		if (StatusCode == 200) {
 			const resData = this._parseResBody(resRawData)
+			const rawBody = resData.rawBody
+
+			if (Object.hasOwn(resData, 'rawBody')) {
+				delete resData.rawBody
+			}
 
 			result.requestId = $metadata?.requestId
 			result.data = resData
 			result.raw = resRawData
 
 			if (typeof req.valid === 'function') {
-				result.fail = !req.valid(resData, resRawData)
+				result.fail = !req.valid(resData, resRawData, {
+					isApiGatewayFormat: this._isApiGatewayFormat(resData, rawBody)
+				})
 			} else if (resData.statusCode && resData.statusCode != 200) {
 				result.fail = true
 			}
@@ -121,7 +128,7 @@ class TestCase {
 		return result
 	}
 
-	_parseResBody (resPayload) {
+	_parseResBody (resPayload, isInnerBody) {
 		let result = resPayload
 
 		if (typeof resPayload === 'string' && (/^\{[\w\W]*\}$/.test(resPayload) || /^\[[\w\W]*\]$/.test(resPayload))) {
@@ -130,7 +137,11 @@ class TestCase {
 				delete result.headers
 
 				if (result.body) {
-					result.body = this._parseResBody(result.body)
+					if (!isInnerBody) {
+						result.rawBody = result.body
+					}
+					
+					result.body = this._parseResBody(result.body, true)
 				}
 			} catch (err) {
 				console.error(err)
@@ -188,6 +199,11 @@ class TestCase {
 			request,
 			response
 		}
+	}
+
+	_isApiGatewayFormat (resData, rawBody) {
+		return typeof resData?.statusCode === 'number' && !resData?.body ||
+			(resData?.body && typeof rawBody === 'string' && /^\{[\w\W]*\}$/.test(rawBody) || /^\[[\w\W]*\]$/.test(rawBody))
 	}
 }
 

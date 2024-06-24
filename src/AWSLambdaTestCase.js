@@ -3,7 +3,7 @@ const { fromIni } = require('@aws-sdk/credential-provider-ini')
 const TestCase = require('./TestCase')
 
 const MODULE_NAME = 'AWSLambdaTestCase'
-const MODULE_VER = '0.6.1'
+const MODULE_VER = '0.7.0'
 
 
 class AWSLambdaTestCase {
